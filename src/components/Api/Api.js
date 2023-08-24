@@ -2,7 +2,7 @@ import Axios from "./Axios";
 function getUrl() {
     return process.env.NODE_ENV === "development"
         ? "http://localhost:3001"
-        : "https://recipe-project-2pgt.onrender.com";
+        : "https://cars-backend-hu7s.onrender.com";
 }
 async function getAllCars() {
     try {

@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { getCarsByMake, getUrl } from "../Api/Api";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 function Cars() {
     const { id } = useParams();
     const [carData, setCarData] = useState([]);
+    const navigate = useNavigate();
 
     const url = getUrl();
     useEffect(() => {
@@ -62,6 +63,16 @@ function Cars() {
                             </div>
                         ))}
                 </div>
+
+                <button
+                    className="btn btn-success mx-3"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigate(-1);
+                    }}
+                >
+                    Go Back
+                </button>
             </div>
         </>
     );

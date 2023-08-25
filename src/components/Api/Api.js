@@ -36,11 +36,9 @@ async function createCar(formInfo) {
             }
         }
         let result = await Axios.post("/cars", formData);
-        console.log("Response: " + result.data);
         return result;
-    } catch (e) {
-        alert(e.response.data.error);
-        return;
+    } catch (error) {
+        return alert(error.response.data.error);
     }
 }
 async function getAllMakes() {

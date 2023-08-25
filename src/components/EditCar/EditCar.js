@@ -65,9 +65,11 @@ function EditCar() {
         event.preventDefault();
 
         try {
-            await updateCarById(id, formData);
-            alert(`Car has been edited`);
-            navigate(`/cars/makes/${formData.make}`);
+            let result = await updateCarById(id, formData);
+            if (result !== undefined) {
+                alert(`Car has been edited`);
+                navigate(`/cars/makes/${formData.make}`);
+            }
         } catch (e) {
             alert(e.response.data.error);
         }
@@ -118,6 +120,7 @@ function EditCar() {
                             name="model"
                             className="form-control"
                             value={formData.model}
+                            required
                             onChange={(e) =>
                                 setFormData((prevFormData) => ({
                                     ...prevFormData,
@@ -136,6 +139,7 @@ function EditCar() {
                             name="year"
                             className="form-control"
                             value={formData.year}
+                            required
                             onChange={(e) =>
                                 setFormData((prevFormData) => ({
                                     ...prevFormData,
@@ -172,6 +176,7 @@ function EditCar() {
                             name="horsepower"
                             className="form-control"
                             value={formData.horsepower}
+                            required
                             onChange={(e) =>
                                 setFormData((prevFormData) => ({
                                     ...prevFormData,

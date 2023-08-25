@@ -15,6 +15,7 @@ function NewCar() {
     };
     const [formData, setFormData] = useState(initialFormData);
     const [makes, setMakes] = useState([]);
+    const [error, setError] = useState("Please select a valid make.");
     const navigate = useNavigate();
 
     async function fetchMakes() {
@@ -39,34 +40,39 @@ function NewCar() {
             </div>
         );
     }
+    const handleMakeChange = (e) => {
+        const selectedMake = e.target.value;
 
+        if (selectedMake === "") {
+            setError("Please select a valid make.");
+        } else {
+            setError(null);
+        }
+
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [e.target.name]: selectedMake,
+        }));
+    };
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (formData.image) {
-            try {
-                await createCar(formData);
-                setFormData(initialFormData);
-                alert(`Car has been added`);
-                navigate(`/cars/makes/${formData.make}`);
-            } catch (error) {
-                return alert(error.response.data.error);
+        try {
+            if (!error) {
+                let result = await createCar(formData);
+                if (result !== undefined) {
+                    setFormData(initialFormData);
+                    alert(`Car has been added`);
+                    navigate(`/cars/makes/${formData.make}`);
+                }
+            } else {
+                alert(error);
             }
+        } catch (error) {
+            console.log(error);
         }
-
-        // try {
-        //     let newCar = await createCar(formData);
-        //     if (newCar) {
-        //         console.log(formData);
-        //         setFormData(initialFormData);
-        //         alert(`Car has been added`);
-        //         navigate(`/cars/makes/${formData.make}`);
-        //     }
-        // } catch (e) {
-        //     return alert(e.response.data.error);
-        // }
     };
-    console.log(formData);
+
     return (
         <div>
             <div className="container card my-5 mx-auto w-75">
@@ -82,14 +88,10 @@ function NewCar() {
                                 name="make"
                                 className="form-select form-control"
                                 value={formData.make}
-                                onChange={(e) =>
-                                    setFormData((prevFormData) => ({
-                                        ...prevFormData,
-                                        [e.target.name]: e.target.value,
-                                    }))
-                                }
+                                required
+                                onChange={handleMakeChange}
                             >
-                                <option value="0">Select the Make</option>
+                                <option>Select the Make</option>
                                 {makes.map((make) => {
                                     return (
                                         <option value={make.id} key={make.id}>
@@ -111,6 +113,7 @@ function NewCar() {
                             name="model"
                             className="form-control"
                             value={formData.model}
+                            required
                             onChange={(e) =>
                                 setFormData((prevFormData) => ({
                                     ...prevFormData,
@@ -129,6 +132,7 @@ function NewCar() {
                             name="year"
                             className="form-control"
                             value={formData.year}
+                            required
                             onChange={(e) =>
                                 setFormData((prevFormData) => ({
                                     ...prevFormData,
@@ -165,6 +169,7 @@ function NewCar() {
                             name="horsepower"
                             className="form-control"
                             value={formData.horsepower}
+                            required
                             onChange={(e) =>
                                 setFormData((prevFormData) => ({
                                     ...prevFormData,

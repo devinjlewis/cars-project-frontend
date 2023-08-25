@@ -67,7 +67,11 @@ function Car() {
                                 <div className="blockquote-custom-icon bg-info shadow-xl custom-shadow ">
                                     <i className="fa fa-quote-left text-white"></i>
                                 </div>
-
+                                {carData.is_favorite && (
+                                    <p className="mb-0 mt-2 font-italic">
+                                        <span className="fw-bold">⭐</span>
+                                    </p>
+                                )}
                                 <p className="mb-0 mt-2 font-italic">
                                     <span className="fw-bold">Horsepower:</span>{" "}
                                     {carData.horsepower}
@@ -84,10 +88,14 @@ function Car() {
                                     <span className="fw-bold">Year:</span>{" "}
                                     {carData.year}
                                 </p>
-                                <p className="mb-0 mt-2 font-italic">
-                                    <span className="fw-bold">Chassis:</span>{" "}
-                                    {carData.chassis}
-                                </p>
+                                {carData.chassis && (
+                                    <p className="mb-0 mt-2 font-italic">
+                                        <span className="fw-bold">
+                                            Chassis:
+                                        </span>{" "}
+                                        {carData.chassis}
+                                    </p>
+                                )}
                             </blockquote>
                         </div>
                     </div>
@@ -107,6 +115,15 @@ function Car() {
                             }}
                         >
                             Delete
+                        </button>
+                        <button
+                            className="btn btn-success m-3"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate(-1);
+                            }}
+                        >
+                            Go Back
                         </button>
                     </div>
                 </div>
